@@ -1,0 +1,48 @@
+@import "variables.scss";
+@import "mixins.scss";
+
+.dc-chat-sidebar {
+	width: 230px;
+  position: fixed;
+  height: 100%;
+  right: 0px;
+  top: 0px;
+  padding-bottom: 10px;
+  border: 1px solid $sidebar-border;
+  background: $sidebar-bg;
+
+  .dc-chat-title {
+  	padding: 10px;
+  	background: $sidebar-title-bg;
+
+  	.dc-chat-title-badge {
+  		background: $sidebar-title-badge-bg;
+  		color: $sidebar-title-badge-color;
+  		float: right;
+  	}
+  }
+
+  .dc-chat-contacts {
+
+  	.dc-chat-contact {
+  		cursor: pointer;
+  		position: relative;
+  		padding: 10px;
+  		@include transition(all 0.3s ease);
+
+  		&:hover {
+  			background: $contact-hover-bg;
+  		}
+
+  		.dc-chat-contact-name {
+  			margin-left: 5px;
+  		}
+
+  		.dc-chat-contact-online {
+  			color: $contact-online-color;
+  			float: right;
+  			margin-top: 8px;
+  		}
+  	}
+  }
+}
