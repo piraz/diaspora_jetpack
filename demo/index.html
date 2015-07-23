@@ -83,16 +83,9 @@
 				</div>
 				<dc-chat-contacts></dc-chat-contacts>
 			</div>
-			<div>
+			<div class="dc-chat-boxes">
 				{{#each chatBoxes}}
-				<div class="dc-chat-box" style="right:{{position}}px">
-					<div class="dc-chat-box-header">
-						<i class="fa fa-comment"></i> {{contact.name}}
-						<button class="dc-chat-box-header-btn">
-							<i class="fa fa-times"></i>
-						</button>
-					</div>
-				</div>
+					<dc-chat-box></dc-chat-box>
 				{{/each}}
 			</div>
 		</script>
@@ -101,7 +94,7 @@
 			<div class="dc-chat-contacts">
 				{{#each contacts}}
 					<div class="dc-chat-contact" can-click="openChat">
-						<img class="dc-chat-contact-avatar" src="holder.js/30x30" alt="50x50">
+						<img class="dc-chat-contact-avatar" src="http://placehold.it/30x30" alt="50x50">
 						<span class="dc-chat-contact-name">{{name}}</span>
 						{{#if online}}
 							<i class="fa fa-circle dc-chat-contact-online"></i>
@@ -111,6 +104,28 @@
 			</div>
 		</script>
 
+		<script type="text/mustache" id="dc-chat-box">
+			<div class="dc-chat-box" id="{{boxId}}" style="right:{{position}}px">
+				<div class="dc-chat-box-header">
+					<i class="fa fa-comment"></i> {{contact.name}}
+					<button class="dc-chat-box-header-btn" can-click="closeChat">
+						<i class="fa fa-times"></i>
+					</button>
+				</div>
+				<div class="dc-chat-box-msgs">
+					{{#each msgs}}
+						<div class="dc-chat-msg-row">
+							<div class="dc-chat-msg {{#if me}}me{{else}}notme{{/if}}">
+								{{msg}}
+							</div>
+						</div>
+					{{/each}}
+				</div>
+				<div class="dc-chat-box-input">
+					<input type="text" autofocus="" placeholder="Envie uma mensagem" can-enter="addMsg">
+				</div>
+			</div>
+		</script>
 
 
 
@@ -122,6 +137,7 @@
 		<script src="bower_components/canjs/can.object.js" type="text/javascript" charset="utf-8"></script>
 		<script src="bower_components/canjs/can.fixture.js" type="text/javascript" charset="utf-8"></script>
 		<script src="bower_components/holderjs/holder.js" type="text/javascript" charset="utf-8"></script>
+		<script src="bower_components/cryptojslib/rollups/md5.js" type="text/javascript" charset="utf-8"></script>
 		<script src="build/diaspyra-chat.min.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 </html>

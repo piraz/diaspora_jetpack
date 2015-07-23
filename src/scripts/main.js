@@ -1,27 +1,5 @@
-(function($, can) {
+(function($, can, CryptoJS) {
 	'use strict';
-
-	function calcBoxPosition(chatBoxes) {
-		var sidebarSize = $('.dc-chat-sidebar').width();
-		var gutter = 15;
-
-		if (chatBoxes.length === 0) {
-			return gutter + sidebarSize;
-		} else {
-			var chatBoxSize = $('.dc-chat-box').width();
-			return chatBoxes[chatBoxes.length - 1].attr('position') + gutter + chatBoxSize;
-		}
-	}
-
-	function alreadyOpenedBox(contactId, chatBoxes) {
-		var opened = false;
-		chatBoxes.each(function(box) {
-			if (box.attr('contact').attr('id') == contactId) {
-				opened = true;
-			}
-		});
-		return opened;
-	}
 
 	can.fixture({
 		'GET /contacts': function() {
@@ -40,8 +18,9 @@
 			}];
 		}
 	});
-
 	can.fixture.delay = 1000;
+
+
 
 	var Contact = can.Model.extend({
 		findAll: 'GET /contacts'
@@ -69,21 +48,56 @@
 
 	var contacts = new Contact.List({});
 	var chatBoxes = new can.List([]);
+	var chatMsgs = new can.List([]);
 
 	can.Component.extend({
 		tag: 'dc-chat-contacts',
 		template: can.view('dc-chat-contacts'),
-		scope: {
+		viewModel: {
 			openChat: function(contact, el, ev) {
-				var pos = calcBoxPosition(chatBoxes);
+				var boxId = CryptoJS.MD5(contact.attr('name')).toString();
+				var chatBox = $('#' + boxId);
 
-				console.log(alreadyOpenedBox(contact.attr('id'), chatBoxes));
-
-				if (!alreadyOpenedBox(contact.attr('id'), chatBoxes)) {
+				if (chatBox.length) {
+					chatBox.show();
+				} else {
 					chatBoxes.push({
-						position: pos,
+						boxId: boxId,
 						contact: contact
 					});
+				}
+
+				$('#' + boxId).find('.dc-chat-box-input > input').focus();
+			}
+		}
+	});
+
+	can.Component.extend({
+		tag: 'dc-chat-box',
+		template: can.view('dc-chat-box'),
+		viewModel: {
+			msgs: [],
+			closeChat: function(chatBox, el) {
+				el.parents('.dc-chat-box').hide();
+			},
+			addMsg: function(chatBox, el) {
+				if(el.val().length > 0) {
+					this.msgs.push({
+						msg: el.val(),
+						me: true
+					});
+
+					this.msgs.push({
+						msg: 'Received: ' + el.val(),
+						me: false
+					});
+
+					var chatRow = $('.dc-chat-msg-row');
+					var scrollSize = chatRow.length * chatRow.height();
+
+					$('.dc-chat-box-msgs').scrollTop(scrollSize);
+
+					el.val('');
 				}
 			}
 		}
@@ -95,4 +109,4 @@
 	});
 
 	$('body').append(frag);
-})(window.jQuery, window.can);
+})(window.jQuery, window.can, window.CryptoJS);
