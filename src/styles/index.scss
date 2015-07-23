@@ -46,3 +46,25 @@
   	}
   }
 }
+
+
+
+.dc-chat-box {
+  width: 300px;
+  height: 285px;
+  border: 1px solid $box-border;
+  position: fixed;
+  bottom: 10px;
+  right: 250px;
+
+  .dc-chat-box-header {
+    background: #ddd;
+    padding: 10px;
+
+    .dc-chat-box-header-btn {
+      float: right;
+      outline: none;
+      border: 0 solid transparent;
+    }
+  }
+}

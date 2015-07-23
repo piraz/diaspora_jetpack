@@ -1,6 +1,28 @@
 (function($, can) {
 	'use strict';
 
+	function calcBoxPosition(chatBoxes) {
+		var sidebarSize = $('.dc-chat-sidebar').width();
+		var gutter = 15;
+
+		if (chatBoxes.length === 0) {
+			return gutter + sidebarSize;
+		} else {
+			var chatBoxSize = $('.dc-chat-box').width();
+			return chatBoxes[chatBoxes.length - 1].attr('position') + gutter + chatBoxSize;
+		}
+	}
+
+	function alreadyOpenedBox(contactId, chatBoxes) {
+		var opened = false;
+		chatBoxes.each(function(box) {
+			if (box.attr('contact').attr('id') == contactId) {
+				opened = true;
+			}
+		});
+		return opened;
+	}
+
 	can.fixture({
 		'GET /contacts': function() {
 			return [{
@@ -46,9 +68,30 @@
 	});
 
 	var contacts = new Contact.List({});
+	var chatBoxes = new can.List([]);
+
+	can.Component.extend({
+		tag: 'dc-chat-contacts',
+		template: can.view('dc-chat-contacts'),
+		scope: {
+			openChat: function(contact, el, ev) {
+				var pos = calcBoxPosition(chatBoxes);
+
+				console.log(alreadyOpenedBox(contact.attr('id'), chatBoxes));
+
+				if (!alreadyOpenedBox(contact.attr('id'), chatBoxes)) {
+					chatBoxes.push({
+						position: pos,
+						contact: contact
+					});
+				}
+			}
+		}
+	});
 
 	var frag = can.view('#dc-chat', {
-		contacts: contacts
+		contacts: contacts,
+		chatBoxes: chatBoxes
 	});
 
 	$('body').append(frag);

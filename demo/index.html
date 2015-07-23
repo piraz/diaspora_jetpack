@@ -81,21 +81,35 @@
 					<i class="fa fa-comments"></i> Chat
 					<span class="badge dc-chat-title-badge">{{contacts.onlineCount}}</span>
 				</div>
-				<div class="dc-chat-contacts">
-					{{#each contacts}}
-						<div class="dc-chat-contact">
-							<img class="dc-chat-contact-avatar" src="holder.js/30x30" alt="50x50">
-							<span class="dc-chat-contact-name">{{name}}</span>
-							{{#if online}}
-							<i class="fa fa-circle dc-chat-contact-online"></i>
-							{{/if}}
-						</div>
-					{{/each}}
+				<dc-chat-contacts></dc-chat-contacts>
+			</div>
+			<div>
+				{{#each chatBoxes}}
+				<div class="dc-chat-box" style="right:{{position}}px">
+					<div class="dc-chat-box-header">
+						<i class="fa fa-comment"></i> {{contact.name}}
+						<button class="dc-chat-box-header-btn">
+							<i class="fa fa-times"></i>
+						</button>
+					</div>
 				</div>
+				{{/each}}
 			</div>
 		</script>
-		
 
+		<script type="text/mustache" id="dc-chat-contacts">
+			<div class="dc-chat-contacts">
+				{{#each contacts}}
+					<div class="dc-chat-contact" can-click="openChat">
+						<img class="dc-chat-contact-avatar" src="holder.js/30x30" alt="50x50">
+						<span class="dc-chat-contact-name">{{name}}</span>
+						{{#if online}}
+							<i class="fa fa-circle dc-chat-contact-online"></i>
+						{{/if}}
+					</div>
+				{{/each}}
+			</div>
+		</script>
 
 
 
