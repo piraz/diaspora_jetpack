@@ -48,7 +48,7 @@
 	can.mustache('dc-chat-box', '<div class="dc-chat-box" id="{{boxId}}" style="right:{{position}}px"> \
 												<div class="dc-chat-box-header"> \
 													<i class="fa fa-comment"></i> {{contact.name}} \
-													<button class="dc-chat-box-header-btn" can-click="closeChat"> \
+													<button class="dc-chat-box-header-btn" can-click="closeChat" title="Fechar Chat"> \
 														<i class="fa fa-times"></i> \
 													</button> \
 												</div> \
@@ -90,7 +90,6 @@
 
 	var contacts = new Contact.List({});
 	var chatBoxes = new can.List([]);
-	var chatMsgs = new can.List([]);
 
 	can.Component.extend({
 		tag: 'dc-chat-contacts',
@@ -123,7 +122,7 @@
 				el.parents('.dc-chat-box').hide();
 			},
 			addMsg: function(chatBox, el) {
-				if(el.val().length > 0) {
+				if (el.val().length > 0) {
 					this.msgs.push({
 						msg: el.val(),
 						me: true
