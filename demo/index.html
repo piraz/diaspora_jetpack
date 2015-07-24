@@ -67,47 +67,13 @@
 			</div>
 		</div>
 
-
-
-
-
-
-
-
-		<!-- CHAT WIDGET -->
-		<script type="text/mustache" id="dc-chat">
-			<div class="dc-chat-sidebar">
-				<div class="dc-chat-title">
-					<i class="fa fa-comments"></i> Chat
-					<span class="badge dc-chat-title-badge">{{totalOnline}}</span>
-				</div>
-				<div class="dc-chat-contacts">
-					{{#each contacts}}
-						<div class="dc-chat-contact">
-							<img class="dc-chat-contact-avatar" src="holder.js/30x30" alt="50x50">
-							<span class="dc-chat-contact-name">{{name}}</span>
-							{{#if online}}
-							<i class="fa fa-circle dc-chat-contact-online"></i>
-							{{/if}}
-						</div>
-					{{/each}}
-				</div>
-			</div>
-		</script>
-		
-
-
-
-
-
-
-
 		<script src="bower_components/jquery/dist/jquery.js" type="text/javascript" charset="utf-8"></script>
 		<script src="bower_components/bootstrap-2.3.2/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
 		<script src="bower_components/canjs/can.jquery.js" type="text/javascript" charset="utf-8"></script>
 		<script src="bower_components/canjs/can.object.js" type="text/javascript" charset="utf-8"></script>
 		<script src="bower_components/canjs/can.fixture.js" type="text/javascript" charset="utf-8"></script>
 		<script src="bower_components/holderjs/holder.js" type="text/javascript" charset="utf-8"></script>
+		<script src="bower_components/cryptojslib/rollups/md5.js" type="text/javascript" charset="utf-8"></script>
 		<script src="build/diaspyra-chat.min.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 </html>

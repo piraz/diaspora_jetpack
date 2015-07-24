@@ -20,7 +20,8 @@
     "otr": "~0.2.15",
     "bootstrap": "~2.3.2",
     "font-awesome": "~4.3.0",
-    "holderjs": "~2.8.1"
+    "holderjs": "~2.8.1",
+    "cryptojslib": "~3.1.2"
   },
   "resolutions": {
     "bootstrap": "~2.3.2",
