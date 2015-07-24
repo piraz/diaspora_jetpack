@@ -58,8 +58,8 @@ target/
 
 
 # Webapp Development
-node_modules
-.tmp
-.sass-cache
-bower_components
-test/bower_components
+client/node_modules
+client/.tmp
+client/.sass-cache
+client/bower_components
+client/test/bower_components
