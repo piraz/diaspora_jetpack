@@ -10,8 +10,8 @@
     "type": "git",
     "url": "git+https://github.com/dev-marc-laurent/diaspyra_chat.git"
   },
-  "author": "Marc Laurent <dev.marc.laurent@gmail.com>",
-  "license": "MIT",
+  "author": "Marc Laurent <marc.laurent182@gmail.com>",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/dev-marc-laurent/diaspyra_chat/issues"
   },

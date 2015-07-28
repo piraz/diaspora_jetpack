@@ -1,6 +1,10 @@
 (function($, can, CryptoJS) {
 	'use strict';
 
+	///////////////////////////
+	// XMPP Server Simulator //
+	///////////////////////////
+
 	can.fixture({
 		'GET /contacts': function() {
 			return [{
@@ -18,51 +22,58 @@
 			}];
 		}
 	});
-	can.fixture.delay = 1000;
+	can.fixture.delay = 2000; // Delay time to server reply
 
-	can.mustache('dc-chat', '<div class="dc-chat-sidebar"> \
-											<div class="dc-chat-title"> \
-												<i class="fa fa-comments"></i> Chat \
-												<span class="badge dc-chat-title-badge">{{contacts.onlineCount}}</span> \
-											</div> \
-											<dc-chat-contacts></dc-chat-contacts> \
-										</div> \
-										<div class="dc-chat-boxes"> \
-											{{#each chatBoxes}} \
-												<dc-chat-box></dc-chat-box> \
-											{{/each}} \
-										</div>');
+	////////////////////
+	// Chat templates //
+	////////////////////
 
+	// Main container
+	can.mustache('dc-chat', '<div class="dc-chat-sidebar hidden-phone"> \
+														<div class="dc-chat-title"> \
+															<i class="fa fa-comments"></i> Chat \
+															<span class="badge dc-chat-title-badge">{{contacts.onlineCount}}</span> \
+														</div> \
+														<dc-chat-contacts></dc-chat-contacts> \
+													 </div> \
+													 <div class="dc-chat-boxes hidden-phone"> \
+													 	{{#each chatBoxes}} \
+													 		<dc-chat-box></dc-chat-box> \
+														{{/each}} \
+													 </div>');
+
+	// Contacts list
 	can.mustache('dc-chat-contacts', '<div class="dc-chat-contacts"> \
-													{{#each contacts}} \
-														<div class="dc-chat-contact" can-click="openChat"> \
-															<img class="dc-chat-contact-avatar" src="http://placehold.it/30x30" alt="50x50"> \
-															<span class="dc-chat-contact-name">{{name}}</span> \
-															{{#if online}} \
-																<i class="fa fa-circle dc-chat-contact-online"></i> \
-															{{/if}} \
-														</div> \
-													{{/each}} \
-												</div>');
+																			{{#each contacts}} \
+																				<div class="dc-chat-contact" can-click="openChat"> \
+																					<img class="dc-chat-contact-avatar" src="http://placehold.it/30x30" alt="50x50"> \
+																					<span class="dc-chat-contact-name">{{name}}</span> \
+																					{{#if online}} \
+																						<i class="fa fa-circle dc-chat-contact-online"></i> \
+																					{{/if}} \
+																				</div> \
+																			{{/each}} \
+																		</div>');
 
+	// Chat box
 	can.mustache('dc-chat-box', '<div class="dc-chat-box" id="{{boxId}}" style="right:{{position}}px"> \
-												<div class="dc-chat-box-header"> \
-													<i class="fa fa-comment"></i> {{contact.name}} \
-													<button class="dc-chat-box-header-btn" can-click="closeChat" title="Fechar Chat"> \
-														<i class="fa fa-times"></i> \
-													</button> \
-												</div> \
-												<div class="dc-chat-box-msgs"> \
-													{{#each msgs}} \
-														<div class="dc-chat-msg-row"> \
-															<div class="dc-chat-msg {{#if me}}me{{else}}notme{{/if}}">{{msg}}</div> \
-														</div> \
-													{{/each}} \
-												</div> \
-												<div class="dc-chat-box-input"> \
-													<input type="text" autofocus="" placeholder="Envie uma mensagem" can-enter="addMsg"> \
-												</div> \
-											</div>');
+																<div class="dc-chat-box-header"> \
+																	<i class="fa fa-comment"></i> {{contact.name}} \
+																	<button class="dc-chat-box-header-btn" can-click="closeChat" title="Fechar Chat"> \
+																		<i class="fa fa-times"></i> \
+																	</button> \
+																</div> \
+																<div class="dc-chat-box-msgs"> \
+																	{{#each msgs}} \
+																		<div class="dc-chat-msg-row"> \
+																			<div class="dc-chat-msg {{#if me}}me{{else}}notme{{/if}}">{{msg}}</div> \
+																		</div> \
+																	{{/each}} \
+																</div> \
+																<div class="dc-chat-box-input"> \
+																	<input type="text" autofocus="" placeholder="Envie uma mensagem" can-enter="addMsg"> \
+																</div> \
+															</div>');
 
 	var Contact = can.Model.extend({
 		findAll: 'GET /contacts'
