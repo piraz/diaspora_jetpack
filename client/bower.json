@@ -1,0 +1,30 @@
+{
+  "name": "diaspyra_chat",
+  "version": "1.0.0",
+  "homepage": "https://github.com/dev-marc-laurent/diaspyra_chat",
+  "authors": [
+    "Marc Laurent<marc.laurent182@gmail.com"
+  ],
+  "description": "Chat plugin to replace the diaspora chat",
+  "license": "Apache-2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~1.11.2",
+    "canjs": "~2.2.6",
+    "otr": "~0.2.15",
+    "bootstrap": "~2.3.2",
+    "font-awesome": "~4.3.0",
+    "holderjs": "~2.8.1",
+    "cryptojslib": "~3.1.2"
+  },
+  "resolutions": {
+    "bootstrap": "~2.3.2",
+    "jquery": "~1.11.2"
+  }
+}

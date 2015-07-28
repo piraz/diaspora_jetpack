@@ -1,0 +1,21 @@
+$white: #fff;
+
+$sidebar-bg: #f5f5f5;
+$sidebar-border: #ddd;
+
+$sidebar-title-bg: #444;
+$sidebar-title-color: #fff;
+$sidebar-title-badge-bg: #5dbf6f;
+$sidebar-title-badge-color: $white;
+
+$contact-hover-bg: darken($sidebar-bg, 5%);
+$contact-online-color: #5be074;
+
+$box-border: #ccc;
+$box-header-bg: #444;
+$box-header-color: #fff;
+$box-header-btn-bg: $box-header-bg;
+$box-header-btn-color: $box-header-color;
+$box-msgs-bg: #f5f5f5;
+$box-input-color: #333;
+$box-input-border: #ccc;
