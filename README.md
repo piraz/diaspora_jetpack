@@ -1,6 +1,6 @@
 # Diaspyra Chat
 
-Diaspyra chat is a chat addon to a diaspora pod that replace the original one shipped by the original project.
+Diaspyra chat is a chat addon to a diaspora pod that replaces the original one shipped by the original project.
 
 ## Why diaspyra and not diaspora
 
