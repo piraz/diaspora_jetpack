@@ -18,6 +18,9 @@ components:
   - id: jetpack
     class: diaspora_jetpack.DiasporaJetpackComponent
     enabled: true
+  - id: chat
+    class: diaspora_jetpack.chat.DiasporaJetpackChatComponent
+    enabled: true
   #- id: admin
   #  enabled: true
   #- id: info
