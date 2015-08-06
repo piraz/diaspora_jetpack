@@ -2,15 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import firenado.core
+import firenado.core.websocket
 import logging
 import tornado.escape
 import uuid
-
-import firenado.core.websocket
-
 import sys
-import getpass
-import sleekxmpp
 
 # Study this https://gist.github.com/mywaiting/4643396
 
@@ -21,57 +17,32 @@ else:
     raw_input = input
 
 
-class SendMsgBot(sleekxmpp.ClientXMPP):
-    def __init__(self, handler):
-        sleekxmpp.ClientXMPP.__init__(self, "", "")
-        self.recipient = "radiovox@liberdade.digital"
-        self.chat_hander = handler
-        self.add_event_handler("session_start", self.start, threaded=True)
-        self.add_event_handler("message", self.recv_message)
-
-    def start(self, event):
-        self.send_presence()
-        self.get_roster()
-
-    def recv_message(self, msg):
-        # You'll probably want to ignore error and headline messages.
-        # If you want to handle group chat messages, add 'groupchat' to the list.
-        if msg['type'] in ('chat', 'normal'):
-            self.chat_hander.recieve_message("%s says: %s" % (msg['from'], msg['body']))
-
-    def send_msg(self, msg):
-        self.send_message(mto=self.recipient,
-                          mbody=msg,
-                          mtype='chat')
-
-
 class ChatHandler(firenado.core.TornadoHandler):
 
     def get(self):
-        self.render("jetpack:chat/index.html", messages=ChatSocketHandler.cache)
+        cache = []
+        if self.session.id in self.component.xmpp_manager.connections:
+            cache = self.component.xmpp_manager.connections[
+                self.session.id]['cache']
+        self.render("jetpack:chat/index.html", messages=cache)
 
 
 class ChatSocketHandler(firenado.core.websocket.TornadoWebSocketHandler):
-
-    waiters = set()
-    cache = []
-    cache_size = 200
 
     def get_compression_options(self):
         # Non-None enables compression with default options.
         return {}
 
     def open(self):
-        logging.basicConfig(level=7,
+        logging.basicConfig(level=logging.WARNING,
                         format='%(levelname)-8s %(message)s')
-
-        self.bot = SendMsgBot(self)
-        #self.bot['feature_mechanisms'].unencrypted_plain = False
-        self.bot.register_plugin('xep_0030')  # Service Discovery
-        self.bot.register_plugin('xep_0004')  # Data Forms
-        self.bot.register_plugin('xep_0060')  # PubSub
-        self.bot.register_plugin('xep_0199')  # XMPP Ping
-        if self.bot.connect(('liberdade.digital', 5222)):
+        
+        self.component.xmpp_manager.create_xmpp_connection(
+            self.session.id, self)
+        connection = self.component.xmpp_manager.connections[self.session.id]
+        #self.component.xmpp_manager.bot[
+        # 'feature_mechanisms'].unencrypted_plain = False
+        if connection.connect(('liberdade.digital', 5222)):
             # If you do not have the dnspython library installed, you will need
             # to manually specify the name of the server if it does not match
             # the one in the JID. For example, to use Google Talk you would
@@ -79,22 +50,25 @@ class ChatSocketHandler(firenado.core.websocket.TornadoWebSocketHandler):
             #
             # if xmpp.connect(('talk.google.com', 5222)):
             #     ...
-            self.bot.process(block=False)
-        ChatSocketHandler.waiters.add(self)
+            connection['client'].process(block=False)
+        connection['waiters'].add(self)
 
     def on_close(self):
-        ChatSocketHandler.waiters.remove(self)
+        self.component.xmpp_manager.connections[
+            self.session.id]['waiters'].remove(self)
 
-    @classmethod
-    def update_cache(cls, chat):
-        cls.cache.append(chat)
-        if len(cls.cache) > cls.cache_size:
-            cls.cache = cls.cache[-cls.cache_size:]
+    def update_cache(self, chat):
+        connection = self.component.xmpp_manager.connections[self.session.id]
+        connection['cache'].append(chat)
+        if len(connection['cache']) > connection['cache_size']:
+            connection['cache'] = connection[
+                                      'cache'][-connection['cache_size']:]
 
-    @classmethod
-    def send_updates(cls, chat):
-        logging.info("sending message to %d waiters", len(cls.waiters))
-        for waiter in cls.waiters:
+    def send_updates(self, chat):
+        connection = self.component.xmpp_manager.connections[self.session.id]
+        logging.info(
+            "sending message to %d waiters", len(connection['waiters']))
+        for waiter in connection['waiters']:
             try:
                 waiter.write_message(chat)
             except:
@@ -107,12 +81,13 @@ class ChatSocketHandler(firenado.core.websocket.TornadoWebSocketHandler):
             "id": str(uuid.uuid4()),
             "body": parsed["body"],
             }
-        self.bot.send_msg(parsed["body"])
+        self.component.xmpp_manager.connections[
+            self.session.id]['client'].send_msg(parsed["body"])
         chat["html"] = tornado.escape.to_basestring(
             self.render_string("jetpack:chat/message.html", message=chat))
 
-        ChatSocketHandler.update_cache(chat)
-        ChatSocketHandler.send_updates(chat)
+        self.update_cache(chat)
+        self.send_updates(chat)
 
     def recieve_message(self, message):
         logging.info("got message %r", message)
@@ -123,5 +98,5 @@ class ChatSocketHandler(firenado.core.websocket.TornadoWebSocketHandler):
         chat["html"] = tornado.escape.to_basestring(
             self.render_string("jetpack:chat/message.html", message=chat))
 
-        ChatSocketHandler.update_cache(chat)
-        ChatSocketHandler.send_updates(chat)
+        self.update_cache(chat)
+        self.send_updates(chat)
