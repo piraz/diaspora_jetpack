@@ -13,7 +13,7 @@ data:
       connector: redis
       # host: localhost
       # port: 6379
-      # db: 0
+      db: 2
 components:
   - id: jetpack
     class: diaspora_jetpack.DiasporaJetpackComponent
