@@ -63,3 +63,6 @@ client/.tmp
 client/.sass-cache
 client/bower_components
 client/test/bower_components
+
+# Pycharm project
+.idea
