@@ -1,28 +1,5 @@
-(function($, can, CryptoJS) {
+(function(window, $, can, CryptoJS) {
 	'use strict';
-
-	///////////////////////////
-	// XMPP Server Simulator //
-	///////////////////////////
-
-	can.fixture({
-		'GET /contacts': function() {
-			return [{
-				id: 1,
-				name: 'Fulano de Tal',
-				online: true
-			}, {
-				id: 2,
-				name: 'Beltrano',
-				online: false
-			}, {
-				id: 3,
-				name: 'Joãozinho',
-				online: true
-			}];
-		}
-	});
-	can.fixture.delay = 2000; // Delay time to server reply
 
 	////////////////////
 	// Chat templates //
@@ -110,6 +87,14 @@
 				var boxId = CryptoJS.MD5(contact.attr('name')).toString();
 				var chatBox = $('#' + boxId);
 
+				var chatArea = $(window).width() - $('.dc-chat-sidebar').width();
+				var chatSize = $('.dc-chat-box').width();
+				var openedChats = $('.dc-chat-box:visible').length;
+
+				if((chatArea - (openedChats * chatSize) < (chatSize + 30)) && !chatBox.is(':visible')) {
+					$('.dc-chat-box:visible').last().hide();
+				}
+
 				if (chatBox.length) {
 					chatBox.show();
 				} else {
@@ -149,7 +134,7 @@
 
 					$('.dc-chat-box-msgs').scrollTop(scrollSize);
 
-					el.val('');
+					el.val('');;
 				}
 			}
 		}
@@ -161,4 +146,4 @@
 	});
 
 	$('body').append(frag);
-})(window.jQuery, window.can, window.CryptoJS);
+})(window, window.jQuery, window.can, window.CryptoJS);
