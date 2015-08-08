@@ -12,7 +12,7 @@ class SessionHandler(firenado.core.TornadoHandler):
         reset = details=self.get_argument("reset", False, True)
         if reset:
             self.session.delete('counter')
-            self.redirect('/session')
+            self.redirect('/jetpack/session')
             return None
         counter = 0
         if self.session.has('counter'):
