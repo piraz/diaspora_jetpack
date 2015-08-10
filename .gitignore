@@ -73,3 +73,6 @@ bower_components
 # Sasl
 .sass-cache
 chat.css.map
+
+# Firenado
+firenado.yaml
