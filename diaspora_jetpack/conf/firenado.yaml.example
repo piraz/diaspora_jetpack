@@ -30,7 +30,7 @@ components:
     class: diaspora_jetpack.chat.DiasporaJetpackChatComponent
     enabled: true
   - id: chat
-    class: diaspora_jetpack.singin.DiasporaJetpackSingInComponent
+    class: diaspora_jetpack.signin.DiasporaJetpackSingInComponent
     enabled: true
   #- id: admin
   #  enabled: true
