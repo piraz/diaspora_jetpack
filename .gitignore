@@ -69,3 +69,7 @@ client/test/bower_components
 
 # Bower components
 bower_components
+
+# Sasl
+.sass-cache
+chat.css.map
