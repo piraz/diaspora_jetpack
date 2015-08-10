@@ -1,0 +1,7 @@
+{% extends "jetpack:base.html" %}
+
+{% block content %}
+    <h1>EMAIL</h1>
+    Informe seu email:
+    <img src="/jetpack/static/captcha/{{session_id}}{{anti_cache}}.png">
+{% end %}
