@@ -4,6 +4,8 @@ app:
     sources:
         # Set here references from sources defined on data.sources
         - session
+        - shared_session
+        - chat_cache
   pythonpath: ..
   port: 8888
 
@@ -14,6 +16,12 @@ data:
       # host: localhost
       # port: 6379
       db: 2
+    - name: shared_session
+      connector: redis
+      db: 1
+    - name: chat_cache
+      connector: redis
+      db: 3
 components:
   - id: jetpack
     class: diaspora_jetpack.DiasporaJetpackComponent
