@@ -13,4 +13,7 @@ class DiasporaJetpackComponent(firenado.core.TornadoComponent):
             (r"/jetpack/static/(.*)", tornado.web.StaticFileHandler,
              {"path": os.path.join(self.get_component_path(),
                                    'static')}),
+            (r"/jetpack/bower_components/(.*)", tornado.web.StaticFileHandler,
+             {"path": os.path.join(self.get_component_path(),
+                                   'bower_components')}),
         ]

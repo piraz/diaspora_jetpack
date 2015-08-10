@@ -1,12 +1,11 @@
 {
-  "name": "diaspyra_chat",
-  "strict-ssl": false,
+  "name": "diaspora_jetpack",
   "version": "1.0.0",
   "homepage": "https://github.com/dev-marc-laurent/diaspyra_chat",
   "authors": [
     "Marc Laurent<marc.laurent182@gmail.com"
   ],
-  "description": "Chat plugin to replace the diaspora chat",
+  "description": "Diaspyra chat is a chat addon to a diaspora pod that replaces the original one shipped by the original project.",
   "license": "Apache-2.0",
   "ignore": [
     "**/.*",
