@@ -1,0 +1,6 @@
+host: example.com
+port: 5222
+user: test@example.com
+pass: examplepass
+use_tls: true
+use_ssl: false
