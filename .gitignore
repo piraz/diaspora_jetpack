@@ -76,3 +76,7 @@ chat.css.map
 
 # Firenado
 firenado.yaml
+chat.yaml
+
+# Project
+diaspora_jetpack/static/captcha/*.png
