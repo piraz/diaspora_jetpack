@@ -176,7 +176,9 @@
             socket: null,
 
             start: function() {
-                var url = "wss://" + location.host + "/jetpack/chat/chatsocket";
+                var loc = window.location, protocol;
+                protocol = loc.protocol === "https:" ? "wss" : "ws";
+                var url = protocol + "://" + location.host + "/jetpack/chat/chatsocket";
                 updater.socket = new WebSocket(url);
                 updater.socket.onmessage = function(event) {
                     var data = JSON.parse(event.data)

@@ -8,6 +8,7 @@
         background-color: #f5f5f5;
       }
 
+
       .form-signin {
         max-width: 300px;
         padding: 19px 29px 29px;
@@ -37,10 +38,13 @@
 
     <div class="login"></div>
     <form class="form-signin">
-        <h2 class="form-signin-heading">Informe o seu email</h2>
-        <input type="text" class="input-block-level" placeholder="Email Válido">
-        <input type="text" class="input-block-level" placeholder="Captcha">
-        <img src="/jetpack/static/captcha/{{session_id}}{{anti_cache}}.png">
+        <h2 class="form-signin-heading">Informe seus dados pessoais</h2>
+        <input type="text" class="input-block-level" placeholder="Nome do Usuário">
+        <input type="text" class="input-block-level" placeholder="Primeiro Nome">
+        <input type="text" class="input-block-level" placeholder="Último Nome">
+        <span class="btn btn-default btn-file">
+            Procurar <input type="file">
+        </span>
         <button class="btn btn-large btn-primary" type="submit">Enviar</button>
       </form>
 {% end %}
